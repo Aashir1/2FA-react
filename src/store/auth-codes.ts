@@ -1,6 +1,7 @@
 import { makeAutoObservable, observable } from "mobx";
 import { generateRandom, getIcon } from "~/utils";
 import { AuthCodeEntry, CreateEntryDto } from "./types";
+import { generateId } from "~/utils";
 
 const EXPIRE_TIME = 60;
 const TIMER_INTERVAL = 1000; // 1s
@@ -14,7 +15,7 @@ class AuthCodes {
 
   public createEntry({ name }: CreateEntryDto): void {
     const newEntry: AuthCodeEntry = observable({
-      id: crypto.randomUUID(),
+      id: generateId(),
       name: name,
       code: generateRandom(),
       icon: getIcon(),
@@ -37,7 +38,7 @@ class AuthCodes {
   }
 
   _decrementTime(authCodeEntry: AuthCodeEntry): void {
-    if (authCodeEntry.expireTime === 0) {
+    if (authCodeEntry.expireTime === 1) {
       this._resetTimer(authCodeEntry);
     } else {
       authCodeEntry.expireTime -= 1;
