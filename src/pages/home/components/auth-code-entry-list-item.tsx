@@ -14,8 +14,11 @@ export const AuthCodeEntryListItem: FC<{ item: AuthCodeEntry }> = observer(
     };
 
     return (
-      <li className="my-1.5 rounded-md bg-slate-100 p-3 shadow-md">
-        <div className="flex items-center justify-between">
+      <li className="my-1.5 flex items-center rounded-md bg-slate-100 p-3 shadow-md">
+        <div className="mr-5 aspect-square max-h-14">
+          <img src={item.icon} alt={item.name} />
+        </div>
+        <div className="flex flex-1 items-center justify-between">
           <div className="flex flex-col font-medium uppercase">
             <p className="text-sm">{item.name}</p>
             <div>

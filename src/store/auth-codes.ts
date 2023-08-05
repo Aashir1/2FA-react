@@ -1,5 +1,5 @@
 import { makeAutoObservable, observable } from "mobx";
-import { generateRandom } from "~/utils";
+import { generateRandom, getIcon } from "~/utils";
 import { AuthCodeEntry, CreateEntryDto } from "./types";
 
 const EXPIRE_TIME = 60;
@@ -17,7 +17,7 @@ class AuthCodes {
       id: crypto.randomUUID(),
       name: name,
       code: generateRandom(),
-      icon: "",
+      icon: getIcon(),
       expireTime: EXPIRE_TIME,
       timer: setInterval(() => {
         this._decrementTime(newEntry);
