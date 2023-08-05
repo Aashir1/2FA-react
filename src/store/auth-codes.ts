@@ -1,12 +1,12 @@
-import { makeAutoObservable, makeObservable, observable } from "mobx";
-import { AuthCodeEntry, CreateEntryDto } from "./types";
+import { makeAutoObservable, observable } from "mobx";
 import { generateRandom } from "~/utils";
+import { AuthCodeEntry, CreateEntryDto } from "./types";
 
 const EXPIRE_TIME = 60;
 const TIMER_INTERVAL = 1000; // 1s
 
 class AuthCodes {
-  entries: AuthCodeEntry[] = [];
+  entries = observable.array<AuthCodeEntry>([]);
 
   constructor() {
     makeAutoObservable(this);
@@ -28,6 +28,7 @@ class AuthCodes {
   }
 
   _resetTimer(authCodeEntry: AuthCodeEntry): void {
+    clearInterval(authCodeEntry.timer);
     authCodeEntry.code = generateRandom();
     authCodeEntry.expireTime = EXPIRE_TIME;
     authCodeEntry.timer = setInterval(() => {

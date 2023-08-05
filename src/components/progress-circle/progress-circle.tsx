@@ -25,13 +25,13 @@ export const ProgressCircle: FC<ProgressCircleProps> = (props) => {
   const cy = radius + 5;
 
   return (
-    <div className="inline-flex items-center justify-center relative">
+    <div className="relative inline-flex items-center justify-center">
       <svg className="progress-ring" height={cy * 2} width={cx * 2}>
         <circle
           strokeDasharray={`${circumference} ${circumference}`}
           strokeDashoffset={offset}
           stroke={color}
-          stroke-width={strokeWidth}
+          strokeWidth={strokeWidth}
           fill="transparent"
           className="progress-ring__circle"
           color="red"
@@ -41,7 +41,7 @@ export const ProgressCircle: FC<ProgressCircleProps> = (props) => {
         />
       </svg>
       <span
-        className="absolute inline-block ml-auto mr-auto"
+        className="absolute ml-auto mr-auto inline-block"
         style={{ fontSize: fontSize ?? Math.max(radius - 4, 16) }}
       >
         {text ? text : `${percentage}%`}
