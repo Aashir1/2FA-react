@@ -44,6 +44,11 @@ class AuthCodes {
       authCodeEntry.expireTime -= 1;
     }
   }
+
+  public moveItem(fromIndex:number, toIndex:number):void {
+    const [movedItem] = this.entries.splice(fromIndex, 1);
+    this.entries.splice(toIndex, 0, movedItem);
+  };
 }
 
 export const AuthCodesObservable = new AuthCodes();

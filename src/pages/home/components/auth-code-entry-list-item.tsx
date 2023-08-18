@@ -1,4 +1,5 @@
 import { Copy } from "lucide-react";
+import { useDrag, useDrop } from 'react-dnd';
 import { observer } from "mobx-react-lite";
 import { FC } from "react";
 import { toast } from "react-hot-toast";
@@ -6,15 +7,37 @@ import { ProgressCircle } from "~/components/progress-circle";
 import { AuthCodeEntry } from "~/store/types";
 import { formatCode } from "~/utils/format-code";
 
-export const AuthCodeEntryListItem: FC<{ item: AuthCodeEntry }> = observer(
-  ({ item }) => {
+interface ComponentProps {
+  item: AuthCodeEntry;
+  index: number;
+  moveItem: (fromItem: any, toItem: any) => void;
+}
+
+export const AuthCodeEntryListItem: FC<ComponentProps> = observer(
+  ({ item, index, moveItem }) => {
+
+    const [, ref] = useDrag({
+      type: 'List',
+      item: index,
+    });
+
+    const [, drop] = useDrop({
+      accept: 'List',
+      hover: (draggedItem: any) => {
+        if (draggedItem.index !== index) {
+          moveItem(draggedItem.index, index);
+          draggedItem.index = index;
+        }
+      },
+    });
+
     const copyToClipboard = async () => {
       await navigator.clipboard.writeText(item.code.toString());
       toast.success("Code copied to clipboard.");
     };
 
     return (
-      <li className="my-1.5 flex items-center rounded-md bg-slate-100 p-3 shadow-md">
+      <li ref={(node) => ref(drop(node))} className="my-1.5 flex items-center rounded-md bg-slate-100 p-3 shadow-md">
         <div className="mr-5 aspect-square max-h-14">
           <img src={item.icon} alt={item.name} />
         </div>
